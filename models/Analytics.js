@@ -1,21 +1,54 @@
 const mongoose = require('mongoose')
-
-var AnalyticSchema = new mongoose.Schema({
-    feed_id:{
-        type : mongoose.Schema.Types.ObjectId,
+let Vote_countSchema = new mongoose.Schema({
+    user_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Users",
+    },
+    feed_id: {
+        type: mongoose.Schema.Types.ObjectId,
         ref: "Feeds",
     },
-    vote_count:{
-        type : mongoose.Schema.Types.ObjectId,
-        ref: "Votes",
+    feed_type: {
+        type: String,
+        enum: ['up', 'down']
+    }
+})
+
+// let feed_comment = new mongoose.Schema({
+
+//     feed_id: {
+//         type: mongoose.Schema.Types.ObjectId,
+//         ref: "Feeds",
+//     },
+//     comment: String
+
+// })
+
+var AnswersSchema = new mongoose.Schema({
+    feed_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Feeds",
     },
-    answer_count:{
-        type : mongoose.Schema.Types.ObjectId,
+    answer: String,
+});
+
+var AnalyticsSchema = new mongoose.Schema({
+    feed_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Feeds",
+    },
+    vote_count:String,
+    votes:[Vote_countSchema],
+    // comment: [feed_comment],
+    answer_count:String,
+    answers:[AnswersSchema],
+    answer_count: {
+        type: mongoose.Schema.Types.ObjectId,
         ref: "Answers",
     },
-},
-    { timestamps: true });
+    view_count:String
+});
 
-const Analytic = mongoose.model('Analytic', AnalyticSchema);
+const Analytics = mongoose.model('Analytics', AnalyticsSchema);
 
-module.exports = Analytic;
+module.exports = Analytics;

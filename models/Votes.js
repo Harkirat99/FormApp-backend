@@ -9,7 +9,10 @@ var VotesSchema = new mongoose.Schema({
         type : mongoose.Schema.Types.ObjectId,
         ref: "Feeds",
     },
-     type:Boolean
+    feed_type: {
+        type: String,
+        enum: ['up', 'down']
+    }
 });
 
 const Votes = mongoose.model('Votes', VotesSchema);
